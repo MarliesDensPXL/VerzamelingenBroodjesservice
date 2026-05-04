@@ -24,8 +24,7 @@ namespace Broodjesservice
             string inputName;
             do
             {
-                Console.WriteLine("Geef de naam van het broodje (of 'stop' om te eindigen):" +
-                    "");
+                Console.WriteLine("Geef de naam van het broodje (of 'stop' om te eindigen):");                  
                 inputName = Console.ReadLine();
                 if (inputName == "stop")
                 {
@@ -55,9 +54,7 @@ namespace Broodjesservice
                 
                 amountPerType[inputType] += price;
                 
-
-
-                    Console.ReadLine();
+                Console.ReadLine();
 
             } while (inputName != "stop") ;
 
