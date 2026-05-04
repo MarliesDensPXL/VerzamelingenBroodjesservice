@@ -6,6 +6,8 @@ namespace Broodjesservice
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
             List < Broodje > broodjes = new List<Broodje>();
             Dictionary<string, decimal> amountPerType = new Dictionary<string, decimal>();
 
@@ -34,6 +36,8 @@ namespace Broodjesservice
                 Console.WriteLine("Geef de prijs: ");
                 decimal.TryParse(Console.ReadLine(), out decimal price);
 
+                bool isExistingType = broodjes.Exists(b => b.Type == inputType); //nakijken of er al een broodje in de lijst staat van het nieuw ingevoerde type.
+
                 try
                 {
                     broodjes.Add(new Broodje(inputName, inputType, price)); // niet eerst nieuw broodje maken en daarna toevoegen maar in één weg (dan moet ik geen zinloze variabele-naam voor het nieuwe broodje verzinnen)
@@ -42,10 +46,11 @@ namespace Broodjesservice
                 {
                     Console.WriteLine(ae.Message);
                 }
-                bool isExistingType = broodjes.Exists(b => b.Type == inputType); //nakijken of er al een broodje in de lijst staat van het nieuw ingevoerde type.
+                
                 if (!isExistingType) //als type nog niet voorkomt in de lijst, nieuw item in dictionary aanmaken.
                 {
                     amountPerType.Add(inputType, 0.0m); 
+                    amountPerType[inputType] += price;
                 }
                 else
                 {
@@ -56,6 +61,14 @@ namespace Broodjesservice
                     Console.ReadLine();
 
             } while (inputName != "stop") ;
+
+            Console.WriteLine();
+            Console.WriteLine("Omzet per type: ");
+            foreach (var kv in amountPerType)
+            {
+                Console.WriteLine($"{kv.Key}: {kv.Value:c}");
+            }
+
 
         }
     }
