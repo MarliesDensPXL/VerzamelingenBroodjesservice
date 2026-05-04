@@ -36,7 +36,8 @@ namespace Broodjesservice
                 Console.WriteLine("Geef de prijs: ");
                 decimal.TryParse(Console.ReadLine(), out decimal price);
 
-                bool isExistingType = broodjes.Exists(b => b.Type == inputType); //nakijken of er al een broodje in de lijst staat van het nieuw ingevoerde type.
+                //nakijken of er al een broodje in de lijst staat van het nieuw ingevoerde type. (stond eerst ná try-catch maar daarin wordt broodje toegevoegd, dus uiteraard is bool dan altijd true).
+                bool isExistingType = broodjes.Exists(b => b.Type == inputType); 
 
                 try
                 {
@@ -46,16 +47,14 @@ namespace Broodjesservice
                 {
                     Console.WriteLine(ae.Message);
                 }
-                
+
                 if (!isExistingType) //als type nog niet voorkomt in de lijst, nieuw item in dictionary aanmaken.
                 {
-                    amountPerType.Add(inputType, 0.0m); 
-                    amountPerType[inputType] += price;
+                    amountPerType.Add(inputType, 0.0m);
                 }
-                else
-                {
-                    amountPerType[inputType] += price;
-                }
+                
+                amountPerType[inputType] += price;
+                
 
 
                     Console.ReadLine();
