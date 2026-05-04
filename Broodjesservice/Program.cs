@@ -36,25 +36,29 @@ namespace Broodjesservice
                 decimal.TryParse(Console.ReadLine(), out decimal price);
 
                 //nakijken of er al een broodje in de lijst staat van het nieuw ingevoerde type. (stond eerst ná try-catch maar daarin wordt broodje toegevoegd, dus uiteraard is bool dan altijd true).
-                bool isExistingType = broodjes.Exists(b => b.Type == inputType); 
+                // bool isExistingType = broodjes.Exists(b => b.Type == inputType); 
 
-                try
-                {
-                    broodjes.Add(new Broodje(inputName, inputType, price)); // niet eerst nieuw broodje maken en daarna toevoegen maar in één weg (dan moet ik geen zinloze variabele-naam voor het nieuwe broodje verzinnen)
+                if (!broodjes.Exists(b => b.Type.Equals(inputType)))
+                { 
+                    try
+                    {
+                        broodjes.Add(new Broodje(inputName, inputType, price)); // niet eerst nieuw broodje maken en daarna toevoegen maar in één weg (dan moet ik geen zinloze variabele-naam voor het nieuwe broodje verzinnen)
+                        amountPerType.Add(inputType, 0.0m);
+                        amountPerType[inputType] += price;
+
+                    }
+                    catch (ArgumentException ae)
+                    {
+                        Console.WriteLine(ae.Message);
+                    }
                 }
-                catch (ArgumentException ae)
+                else
                 {
-                    Console.WriteLine(ae.Message);
+                    amountPerType[inputType] += price;
                 }
 
-                if (!isExistingType) //als type nog niet voorkomt in de lijst, nieuw item in dictionary aanmaken.
-                {
-                    amountPerType.Add(inputType, 0.0m);
-                }
-                
-                amountPerType[inputType] += price;
-                
-                Console.ReadLine();
+                    
+                    Console.ReadLine();
 
             } while (inputName != "stop") ;
 
